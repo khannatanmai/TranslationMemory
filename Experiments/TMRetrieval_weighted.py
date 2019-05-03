@@ -3,7 +3,7 @@
 
 # # Translation Memory Retrieval using Weighted N-Grams
 
-# In[81]:
+# In[109]:
 
 
 import nltk
@@ -13,13 +13,13 @@ import string
 import numpy as np
 
 
-# In[82]:
+# In[110]:
 
 
 nltk.download('punkt')
 
 
-# In[83]:
+# In[111]:
 
 
 from nltk.tokenize import word_tokenize
@@ -28,22 +28,21 @@ from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
 
 
-# In[84]:
+# In[112]:
 
 
-# input_line = input()
+input_line = input()
 
-sentence = "I request you to remove the drive safely"
+sentence = input_line
+# sentence = "I request you to remove the drive safely"
 # sentence = "There are a few controversies surrounding the the company may keep changing its business strategy topic how many songs did Rafi sing during his lifetime"
-
-M_ngrams = get_M_ngrams(sentence)
 
 
 # ## Weighted N-Gram Precision
 
 # ### Get sentences and IDF values
 
-# In[85]:
+# In[113]:
 
 
 idf_values = {}
@@ -62,7 +61,7 @@ print(idf_values)
 
 # ### Getting the M_ngrams and C_ngrams
 
-# In[86]:
+# In[114]:
 
 
 def get_M_ngrams(sentence):
@@ -80,7 +79,13 @@ def get_M_ngrams(sentence):
     return M_ngrams
 
 
-# In[87]:
+# In[115]:
+
+
+M_ngrams = get_M_ngrams(sentence)
+
+
+# In[116]:
 
 
 def get_C_ngrams(candidate_sentence):
@@ -102,7 +107,7 @@ def get_C_ngrams(candidate_sentence):
 
 # ### To compute numerator and denominator
 
-# In[88]:
+# In[117]:
 
 
 def ngrams_intersection(candidate_sentence):
@@ -114,7 +119,7 @@ def ngrams_intersection(candidate_sentence):
     return list(M_set & C_set)
 
 
-# In[89]:
+# In[118]:
 
 
 def compute_w_sum(ngrams_list):
@@ -129,7 +134,7 @@ def compute_w_sum(ngrams_list):
 
 # ### Final score for each sentence wrt to input sentence
 
-# In[90]:
+# In[119]:
 
 
 def compute_wpn(candidate_sentence):
@@ -147,7 +152,7 @@ def compute_wpn(candidate_sentence):
     return wpn
 
 
-# In[93]:
+# In[120]:
 
 
 max_wpn = 0
@@ -173,7 +178,7 @@ for i in least_N_indices:
 
 # ### Retrieval of Target from TM
 
-# In[92]:
+# In[121]:
 
 
 tgt_tm_array = []
