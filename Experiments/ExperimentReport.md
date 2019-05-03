@@ -20,12 +20,12 @@ Optimised TM using Chunk Reading [~8 lakh Sentences]: 15.623741865158081
 
 ### Method Used: WEIGHTED N_GRAMS
 
-Naive TM [10000 Sentences]:
+Naive TM [10000 Sentences]: 37.33906102180481
 
-Naive TM [~8 lakh Sentences]:
+Naive TM [~8 lakh Sentences]: > 300 (Did Not Stop)
 
-Optimised TM (Content Word Pruning) [~10000 Sentences]:
+Optimised TM (Content Word Pruning) [~10000 Sentences]: 32.51241321231133
 
-Optimised TM (Content Word Pruning) [~8 lakh Sentences]: 
+Optimised TM (Content Word Pruning) [~8 lakh Sentences]: > 300 (Did Not Stop)
 
 

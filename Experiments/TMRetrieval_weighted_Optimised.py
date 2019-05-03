@@ -11,6 +11,8 @@ import math
 from collections import Counter
 import string
 import numpy as np
+import sys
+import time
 
 
 # In[189]:
@@ -72,6 +74,7 @@ def get_C_ngrams(candidate_sentence):
 
 
 input_line = input()
+start = time.time()
 
 #convert input to lowercase
 input_line = input_line.lower()
@@ -83,7 +86,6 @@ content_words = [word for word in input_tokens if word not in stop_words] #Remov
 
 new_M_sentence = ' '.join(content_words)
 M_ngrams = get_M_ngrams(new_M_sentence)
-w_M_ngrams = compute_w_sum(M_ngrams)
 
 # print(w_M_ngrams)
 
@@ -97,7 +99,7 @@ w_M_ngrams = compute_w_sum(M_ngrams)
 
 src_tm_words = [] #Content Words in Source TM
 
-with open('tm_data/tm_src_2000_pp.txt') as src_tm:
+with open('../../tm_data/tm_src_10000_pp.txt') as src_tm:
     line = src_tm.readline()
     
     while line:
@@ -114,7 +116,7 @@ with open('tm_data/tm_src_2000_pp.txt') as src_tm:
 # In[195]:
 
 
-with open("tm_data/tm_src_2000.txt") as source_file:
+with open("../../tm_data/tm_src_10000.txt") as source_file:
     sentences = source_file.read().splitlines()
 
 
@@ -129,7 +131,7 @@ for tkn in all_tokens_set:
     contains_token = map(lambda doc: tkn in doc, tokenized_sentences)
     idf_values[tkn] = 1 + math.log(len(tokenized_sentences)/(sum(contains_token)))
 
-print(idf_values)
+#print(idf_values)
 
 
 # ### To compute numerator and denominator
@@ -213,7 +215,7 @@ for i, candidate in enumerate(src_tm_words):
     
     j += 1
     
-print('Running WNGP on ' + str(count) + ' Candidates out of a possible ' + str(j) + '!\n')
+#print('Running WNGP on ' + str(count) + ' Candidates out of a possible ' + str(j) + '!\n')
 
 
 #Get top N results
@@ -222,8 +224,8 @@ wpn_all = np.array(wpn_all)
 sorted_indices = np.argsort(wpn_all) #Sorts in ascending order and returns the indices of indices_all array
 least_N_indices = sorted_indices[-N:] 
 
-for i in least_N_indices:
-    print([indices_all[i]], src_tm_words[indices_all[i]], wpn_all[i])
+#for i in least_N_indices:
+#    print([indices_all[i]], src_tm_words[indices_all[i]], wpn_all[i])
 
 
 # ### Retrieval of Target from TM
@@ -233,13 +235,18 @@ for i in least_N_indices:
 
 tgt_tm_array = []
 
-with open('tm_data/tm_tgt_2000.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt_10000.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
         
-for i in least_N_indices:
-    print([indices_all[i]], tgt_tm_array[indices_all[i]])
+#for i in least_N_indices:
+#    print([indices_all[i]], tgt_tm_array[indices_all[i]])
+
+end = time.time()
+
+print("Time Taken:", file=sys.stderr)
+print(end - start, file=sys.stderr)
 
