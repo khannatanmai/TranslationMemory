@@ -11,6 +11,8 @@ import math
 from collections import Counter
 import string
 import numpy as np
+import time
+import sys
 
 
 # In[110]:
@@ -33,6 +35,8 @@ stop_words = stopwords.words('english')
 
 input_line = input()
 
+start = time.time()
+
 sentence = input_line
 # sentence = "I request you to remove the drive safely"
 # sentence = "There are a few controversies surrounding the the company may keep changing its business strategy topic how many songs did Rafi sing during his lifetime"
@@ -46,7 +50,7 @@ sentence = input_line
 
 
 idf_values = {}
-with open("tm_data/tm_src_2000.txt") as source_file:
+with open("../../tm_data/tm_src.txt") as source_file:
     sentences = source_file.read().splitlines()
 
 
@@ -56,7 +60,7 @@ for tkn in all_tokens_set:
     contains_token = map(lambda doc: tkn in doc, tokenized_sentences)
     idf_values[tkn] = 1 + math.log(len(tokenized_sentences)/(sum(contains_token)))
 
-print(idf_values)
+#print(idf_values)
 
 
 # ### Getting the M_ngrams and C_ngrams
@@ -171,9 +175,9 @@ wnp_all = np.array(wnp_all)
 sorted_indices = np.argsort(wnp_all) 
 least_N_indices = sorted_indices[-N:] 
 
-print()
-for i in least_N_indices:
-    print([i], sentences[i], wnp_all[i])
+#print()
+#for i in least_N_indices:
+#    print([i], sentences[i], wnp_all[i])
 
 
 # ### Retrieval of Target from TM
@@ -183,13 +187,18 @@ for i in least_N_indices:
 
 tgt_tm_array = []
 
-with open('../project/tm_data/tm_tgt.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
   
-    for i in least_N_indices:
-        print([i], tgt_tm_array[i])
+    #for i in least_N_indices:
+    #    print([i], tgt_tm_array[i])
+
+end = time.time()
+
+print("Time Taken:", file=sys.stderr)
+print(end - start, file=sys.stderr)
 
