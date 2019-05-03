@@ -11,6 +11,7 @@
 import sys
 import nltk
 import numpy as np
+import time
 
 
 # In[5]:
@@ -33,6 +34,8 @@ stop_words = stopwords.words('english')
 
 input_line = input()
 
+start = time.time()
+
 #convert input to lowercase
 input_line = input_line.lower()
 
@@ -41,7 +44,7 @@ input_tokens = word_tokenize(input_line)
 
 content_words = [word for word in input_tokens if word not in stop_words] #Removing Stopwords
 
-print(content_words)
+#print(content_words)
 
 
 # ## Edit Distance
@@ -80,7 +83,7 @@ indices_all = []
 
 add_to_next_chunk = ''
 
-with open('../tm_data/tm_src_pp.txt') as f: #f = sys.stdin
+with open('../../tm_data/tm_src_pp.txt') as f: #f = sys.stdin
     last_noun = ''
     
     count = 0
@@ -133,7 +136,7 @@ with open('../tm_data/tm_src_pp.txt') as f: #f = sys.stdin
 
             j += 1
     
-    print('Running Edit Distance on ' + str(count) + ' Candidates out of a possible ' + str(j) + '!\n')
+#    print('Running Edit Distance on ' + str(count) + ' Candidates out of a possible ' + str(j) + '!\n')
 
 
 # ## Get Matches
@@ -154,7 +157,7 @@ final_indices = []
 for i in least_N_indices:
     final_indices.append(indices_all[i])
     
-print(final_indices)
+#print(final_indices)
 
 
 # ## Retrieval of Target from TM
@@ -164,18 +167,24 @@ print(final_indices)
 
 tgt_tm_array = []
 
-with open('../tm_data/tm_tgt.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
         
-for i in final_indices:
-    print(i, tgt_tm_array[i])
+#for i in final_indices:
+#    print(i, tgt_tm_array[i])
 
 
 # In[ ]:
+
+end = time.time()
+
+print("Time Taken:", file=sys.stderr)
+print(end - start, file=sys.stderr)
+
 
 
 

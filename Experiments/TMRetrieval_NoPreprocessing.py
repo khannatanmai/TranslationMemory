@@ -9,6 +9,7 @@
 import sys
 import nltk
 import numpy as np
+import time
 
 
 # In[2]:
@@ -28,10 +29,12 @@ from nltk.tokenize import word_tokenize
 
 input_line = input()
 
+start = time.time()
+
 #tokenise
 candidate_tokens = word_tokenize(input_line)
 
-print(candidate_tokens)
+#print(candidate_tokens)
 
 
 # ## Edit Distance
@@ -43,7 +46,7 @@ print(candidate_tokens)
 
 src_tm_tokenized = [] #Tokenized TM SRC
 
-with open('../tm_data/tm_src_10000_pp.txt') as src_tm:
+with open('../../tm_data/tm_src.txt') as src_tm:
     line = src_tm.readline()
     
     while line:
@@ -70,8 +73,8 @@ edit_distance_all = np.array(edit_distance_all)
 sorted_indices = np.argsort(edit_distance_all) #Sorts in ascending order and returns the indices of elements in original array
 least_N_indices = sorted_indices[:N] #We want least edit distance
 
-for i in least_N_indices:
-    print(src_tm_tokenized[i], edit_distance_all[i])
+#for i in least_N_indices:
+    #print(src_tm_tokenized[i], edit_distance_all[i])
 
 
 # ## Retrieval of Target from TM
@@ -81,18 +84,20 @@ for i in least_N_indices:
 
 tgt_tm_array = []
 
-with open('../tm_data/tm_tgt_10000.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
         
-for i in least_N_indices:
-    print(tgt_tm_array[i])
+#for i in least_N_indices:
+    #print(tgt_tm_array[i])
 
+end = time.time()
 
-# In[ ]:
+print("Time Taken:", file=sys.stderr)
+print(end - start, file=sys.stderr)
 
 
 

@@ -11,6 +11,7 @@
 import sys
 import nltk
 import numpy as np
+import time
 
 
 # In[4]:
@@ -33,6 +34,8 @@ stop_words = stopwords.words('english')
 
 input_line = input()
 
+start = time.time()
+
 #convert input to lowercase
 input_line = input_line.lower()
 
@@ -41,7 +44,7 @@ input_tokens = word_tokenize(input_line)
 
 content_words = [word for word in input_tokens if word not in stop_words] #Removing Stopwords
 
-print(content_words)
+#print(content_words)
 
 
 # ## Edit Distance
@@ -53,7 +56,7 @@ print(content_words)
 
 src_tm_words = [] #Content Words in Source TM
 
-with open('../tm_data/tm_src_pp.txt') as src_tm:
+with open('../../tm_data/tm_src_pp.txt') as src_tm:
     line = src_tm.readline()
     
     while line:
@@ -94,18 +97,23 @@ for i in least_N_indices:
 
 tgt_tm_array = []
 
-with open('../tm_data/tm_tgt.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
         
-for i in least_N_indices:
-    print(i, tgt_tm_array[i])
+#for i in least_N_indices:
+#    print(i, tgt_tm_array[i])
 
 
-# In[ ]:
+
+end = time.time()
+
+print("Time Taken:", file=sys.stderr)
+print(end - start, file=sys.stderr)
+
 
 
 
