@@ -13,6 +13,7 @@ import nltk
 import numpy as np
 import json
 import ast
+import time
 
 
 # In[8]:
@@ -35,15 +36,19 @@ stop_words = stopwords.words('english')
 
 input_line = input()
 
+#start = time.time()
+
 #convert input to lowercase
 input_line = input_line.lower()
+
+start1 = time.time()
 
 #tokenise
 input_tokens = word_tokenize(input_line)
 
 content_words = [word for word in input_tokens if word not in stop_words] #Removing Stopwords
 
-print(content_words)
+#print(content_words)
 
 
 # ## Edit Distance
@@ -62,7 +67,7 @@ print(content_words)
 
 src_tm_words = [] #Content Words in Source TM
 
-with open('../tm_data/tm_src_pp.txt') as src_tm:
+with open('../../tm_data/tm_src_pp.txt') as src_tm:
     line = src_tm.readline()
     
     while line:
@@ -81,7 +86,7 @@ with open('../tm_data/tm_src_pp.txt') as src_tm:
 # In[12]:
 
 
-with open('../tm_data/indexed_values_full.json') as json_file:
+with open('../../tm_data/indexed_values_full.json') as json_file:
     indexed_values_str = json.load(json_file)
 
 indexed_dict = ast.literal_eval(indexed_values_str)
@@ -114,13 +119,18 @@ picked_candidates_indices = list(set(picked_candidates_indices)) #Removing Dupli
 #for x in picked_candidates_indices:
 #    print(src_tm_words[x-1])
 
+end1 = time.time()
+
 for index in picked_candidates_indices:
     #since TM is 1-indexed and an array is 0-indexed we subtract 1 when accessing src_tm_words
     ed = nltk.edit_distance(content_words, src_tm_words[index-1]) #Calculate Edit Distance only if content words exist
     edit_distance_all.append(ed)
     
-print('Running Edit Distance on ' + str(len(picked_candidates_indices)) + ' Candidates out of a possible ' + str(len(src_tm_words)) + '!\n')
-    
+#print('Running Edit Distance on ' + str(len(picked_candidates_indices)) + ' Candidates out of a possible ' + str(len(src_tm_words)) + '!\n')
+
+start2 = time.time()
+
+
 #Get top N results
 edit_distance_all = np.array(edit_distance_all)
 
@@ -130,29 +140,37 @@ least_N_indices = sorted_indices[:N] #We want least edit distance
 #print(sorted_indices[0:10])
 #print(least_N_indices)
 
-for i in least_N_indices:
-    print(picked_candidates_indices[i], src_tm_words[picked_candidates_indices[i]-1], edit_distance_all[i])
+#for i in least_N_indices:
+#    print(picked_candidates_indices[i], src_tm_words[picked_candidates_indices[i]-1], edit_distance_all[i])
 
 
 # ## Retrieval of Target from TM
 
-# In[37]:
 
 
 tgt_tm_array = []
 
-with open('../tm_data/tm_tgt.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
         
-for i in least_N_indices:
-    print(picked_candidates_indices[i], tgt_tm_array[picked_candidates_indices[i]-1])
+#for i in least_N_indices:
+#    print(picked_candidates_indices[i], tgt_tm_array[picked_candidates_indices[i]-1])
 
 
 # In[ ]:
+
+
+
+end2 = time.time()
+print("Time Taken:", file=sys.stderr)
+print(end1 - start1, file=sys.stderr)
+print(start2 - end1, file=sys.stderr)
+print(end2 - start2, file=sys.stderr)
+
 
 
 

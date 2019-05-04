@@ -34,7 +34,7 @@ stop_words = stopwords.words('english')
 
 input_line = input()
 
-start = time.time()
+#start = time.time()
 
 #convert input to lowercase
 input_line = input_line.lower()
@@ -88,6 +88,7 @@ indices_all = []
 i = 0
 count = 0
 
+start = time.time()
 for candidate in src_tm_words:
     
     #Check if Content Words present in Candidate
@@ -104,6 +105,8 @@ for candidate in src_tm_words:
             break
     
     i += 1
+
+end = time.time()
     
 #print('Running Edit Distance on ' + str(count) + ' Candidates out of a possible ' + str(i) + '!\n')
     
@@ -137,7 +140,7 @@ with open('../../tm_data/tm_tgt.txt') as tgt_tm:
 #    print(indices_all[i], tgt_tm_array[indices_all[i]])
 
 
-end = time.time()
+#end = time.time()
 
 print("Time Taken:", file=sys.stderr)
 print(end - start, file=sys.stderr)
