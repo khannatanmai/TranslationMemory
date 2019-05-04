@@ -3,7 +3,7 @@
 
 # # Translation Memory Retrieval using Weighted N-Grams
 
-# In[109]:
+# In[116]:
 
 
 import nltk
@@ -11,17 +11,17 @@ import math
 from collections import Counter
 import string
 import numpy as np
-import time
-import sys
+import json
+import ast
 
 
-# In[110]:
+# In[117]:
 
 
 nltk.download('punkt')
 
 
-# In[111]:
+# In[118]:
 
 
 from nltk.tokenize import word_tokenize
@@ -30,42 +30,35 @@ from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
 
 
-# In[112]:
+# In[119]:
 
 
 input_line = input()
 
-start = time.time()
-
 sentence = input_line
-# sentence = "I request you to remove the drive safely"
-# sentence = "There are a few controversies surrounding the the company may keep changing its business strategy topic how many songs did Rafi sing during his lifetime"
+# sentence = "There were many controversies about the songs he performed during his lifetime ."
 
 
 # ## Weighted N-Gram Precision
 
 # ### Get sentences and IDF values
 
-# In[113]:
+# In[120]:
 
 
-idf_values = {}
-with open("../../tm_data/tm_src.txt") as source_file:
+with open("../tm_data/tm_src_2000.txt") as source_file:
     sentences = source_file.read().splitlines()
 
 
-tokenized_sentences = [word_tokenize(sentence) for sentence in sentences]
-all_tokens_set = set([item for sublist in tokenized_sentences for item in sublist])
-for tkn in all_tokens_set:
-    contains_token = map(lambda doc: tkn in doc, tokenized_sentences)
-    idf_values[tkn] = 1 + math.log(len(tokenized_sentences)/(sum(contains_token)))
+with open('../idf_values.json') as json_file:
+    idf_values_str = json.load(json_file)
 
-#print(idf_values)
+idf_values = ast.literal_eval(idf_values_str)
 
 
 # ### Getting the M_ngrams and C_ngrams
 
-# In[114]:
+# In[121]:
 
 
 def get_M_ngrams(sentence):
@@ -83,13 +76,13 @@ def get_M_ngrams(sentence):
     return M_ngrams
 
 
-# In[115]:
+# In[122]:
 
 
 M_ngrams = get_M_ngrams(sentence)
 
 
-# In[116]:
+# In[123]:
 
 
 def get_C_ngrams(candidate_sentence):
@@ -111,7 +104,7 @@ def get_C_ngrams(candidate_sentence):
 
 # ### To compute numerator and denominator
 
-# In[117]:
+# In[124]:
 
 
 def ngrams_intersection(candidate_sentence):
@@ -123,7 +116,7 @@ def ngrams_intersection(candidate_sentence):
     return list(M_set & C_set)
 
 
-# In[118]:
+# In[125]:
 
 
 def compute_w_sum(ngrams_list):
@@ -138,7 +131,7 @@ def compute_w_sum(ngrams_list):
 
 # ### Final score for each sentence wrt to input sentence
 
-# In[119]:
+# In[126]:
 
 
 def compute_wpn(candidate_sentence):
@@ -156,7 +149,7 @@ def compute_wpn(candidate_sentence):
     return wpn
 
 
-# In[120]:
+# In[127]:
 
 
 max_wpn = 0
@@ -175,30 +168,25 @@ wnp_all = np.array(wnp_all)
 sorted_indices = np.argsort(wnp_all) 
 least_N_indices = sorted_indices[-N:] 
 
-#print()
-#for i in least_N_indices:
-#    print([i], sentences[i], wnp_all[i])
+print()
+for i in least_N_indices:
+    print([i], sentences[i], wnp_all[i])
 
 
 # ### Retrieval of Target from TM
 
-# In[121]:
+# In[128]:
 
 
 tgt_tm_array = []
 
-with open('../../tm_data/tm_tgt.txt') as tgt_tm:
+with open('../../project/tm_data/tm_tgt.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
   
-    #for i in least_N_indices:
-    #    print([i], tgt_tm_array[i])
-
-end = time.time()
-
-print("Time Taken:", file=sys.stderr)
-print(end - start, file=sys.stderr)
+    for i in least_N_indices:
+        print([i], tgt_tm_array[i])
 
