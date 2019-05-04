@@ -46,7 +46,7 @@ sentence = input_line
 # In[120]:
 
 
-with open("../tm_data/tm_src_2000.txt") as source_file:
+with open("../tm_data/tm_src_10000_lower.txt") as source_file:
     sentences = source_file.read().splitlines()
 
 
