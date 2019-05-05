@@ -123,7 +123,7 @@ with open("../tm_data/tm_src_10000_lower.txt") as source_file:
 # In[402]:
 
 
-with open('../idf_values.json') as json_file:
+with open('../tm_data/idf_values_2000.json') as json_file:
     idf_values_str = json.load(json_file)
 
 idf_values = ast.literal_eval(idf_values_str)
