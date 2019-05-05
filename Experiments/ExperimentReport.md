@@ -27,13 +27,13 @@ Total: 			31.95877194404602
 
 ### Method Used: WEIGHTED N_GRAMS
 
-Naive TM [10000 Sentences]: 37.33906102180481
+Naive TM [10000 Sentences]: 0.600862979888916
 
-Naive TM [~8 lakh Sentences]: > 300 (Did Not Stop)
+Naive TM [~8 lakh Sentences]: > 39.4572548866272
 
-Optimised TM (Content Word Pruning) [~10000 Sentences]: 32.51241321231133
+Optimised TM (Content Word Pruning) [~10000 Sentences]: 0.4254031181335449
 
-Optimised TM (Content Word Pruning) [~8 lakh Sentences]: > 300 (Did Not Stop)
+Optimised TM (Content Word Pruning) [~8 lakh Sentences]: 18.43024206161499
 
 
 

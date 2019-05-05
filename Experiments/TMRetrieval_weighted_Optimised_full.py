@@ -14,6 +14,9 @@ import numpy as np
 import json
 import ast
 
+import sys
+import time
+
 
 # In[395]:
 
@@ -75,6 +78,8 @@ def get_C_ngrams(candidate_sentence):
 
 input_line = input()
 
+start = time.time()
+
 #convert input to lowercase
 input_line = input_line.lower()
 
@@ -99,7 +104,7 @@ M_ngrams = get_M_ngrams(input_line)
 
 src_tm_words = [] #Content Words in Source TM
 
-with open('../tm_data/tm_src_2000_pp.txt') as src_tm:
+with open('../../tm_data/tm_src_10000_pp.txt') as src_tm:
     line = src_tm.readline()
     
     while line:
@@ -116,14 +121,14 @@ with open('../tm_data/tm_src_2000_pp.txt') as src_tm:
 # In[401]:
 
 
-with open("../tm_data/tm_src_10000_lower.txt") as source_file:
+with open("../../tm_data/tm_src_10000_lower.txt") as source_file:
     sentences = source_file.read().splitlines()
 
 
 # In[402]:
 
 
-with open('../tm_data/idf_values.json') as json_file:
+with open('../../tm_data/idf_values_10000.json') as json_file:
     idf_values_str = json.load(json_file)
 
 idf_values = ast.literal_eval(idf_values_str)
@@ -231,7 +236,7 @@ least_N_indices = sorted_indices[-N:]
 
 tgt_tm_array = []
 
-with open('../tm_data/tm_tgt_2000.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt_10000.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
@@ -240,4 +245,10 @@ with open('../tm_data/tm_tgt_2000.txt') as tgt_tm:
         
 # for i in least_N_indices:
 #     print([indices_all[i]], tgt_tm_array[indices_all[i]])
+
+end = time.time()
+
+print("Time Taken:", file=sys.stderr)
+print(end - start, file=sys.stderr)
+
 

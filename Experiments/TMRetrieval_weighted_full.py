@@ -14,6 +14,9 @@ import numpy as np
 import json
 import ast
 
+import time
+import sys
+
 
 # In[117]:
 
@@ -35,6 +38,8 @@ stop_words = stopwords.words('english')
 
 input_line = input()
 
+start = time.time()
+
 sentence = input_line
 # sentence = "There were many controversies about the songs he performed during his lifetime ."
 
@@ -46,11 +51,11 @@ sentence = input_line
 # In[120]:
 
 
-with open("../tm_data/tm_src_10000_lower.txt") as source_file:
+with open("../../tm_data/tm_src_10000_lower.txt") as source_file:
     sentences = source_file.read().splitlines()
 
 
-with open('../tm_data/idf_values.json') as json_file:
+with open('../../tm_data/idf_values_10000.json') as json_file:
     idf_values_str = json.load(json_file)
 
 idf_values = ast.literal_eval(idf_values_str)
@@ -169,8 +174,8 @@ sorted_indices = np.argsort(wnp_all)
 least_N_indices = sorted_indices[-N:] 
 
 # print()
-# for i in least_N_indices:
-#     print([i], sentences[i], wnp_all[i])
+for i in least_N_indices:
+    print([i], sentences[i], wnp_all[i])
 
 
 # ### Retrieval of Target from TM
@@ -180,7 +185,7 @@ least_N_indices = sorted_indices[-N:]
 
 tgt_tm_array = []
 
-with open('../../project/tm_data/tm_tgt.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt_10000.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
@@ -190,3 +195,8 @@ with open('../../project/tm_data/tm_tgt.txt') as tgt_tm:
     # for i in least_N_indices:
     #     print([i], tgt_tm_array[i])
 
+
+end = time.time()
+
+print("Time Taken:", file=sys.stderr)
+print(end - start, file=sys.stderr)
