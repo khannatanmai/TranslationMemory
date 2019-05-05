@@ -5,22 +5,24 @@
 
 # Note: Preprocessing is a separate module and must be done before using this!
 
-# In[6]:
+# In[7]:
 
 
 import sys
 import nltk
 import numpy as np
+import json
+import ast
 import time
 
 
-# In[7]:
+# In[8]:
 
 
 nltk.download('punkt')
 
 
-# In[8]:
+# In[9]:
 
 
 from nltk.tokenize import word_tokenize
@@ -29,7 +31,7 @@ from nltk.corpus import stopwords
 stop_words = stopwords.words('english')
 
 
-# In[9]:
+# In[10]:
 
 
 input_line = input()
@@ -38,6 +40,8 @@ input_line = input()
 
 #convert input to lowercase
 input_line = input_line.lower()
+
+start1 = time.time()
 
 #tokenise
 input_tokens = word_tokenize(input_line)
@@ -58,7 +62,7 @@ content_words = [word for word in input_tokens if word not in stop_words] #Remov
 # 
 # Once we have a list of edit distances, we take the N lowest, i.e. N best matches and print from the Target TM.
 
-# In[10]:
+# In[11]:
 
 
 src_tm_words = [] #Content Words in Source TM
@@ -75,56 +79,73 @@ with open('../../tm_data/tm_src_pp.txt') as src_tm:
         line = src_tm.readline()
 
 
-# ## Execute Edit Distance
+# ## Load Index
+# 
+# The Index has been created by a separate code to make look-up of content words faster.
 
-# In[25]:
+# In[12]:
+
+
+with open('../../tm_data/indexed_values_full.json') as json_file:
+    indexed_values_str = json.load(json_file)
+
+indexed_dict = ast.literal_eval(indexed_values_str)
+
+
+# ## Execute Edit Distance
+# 
+# Instead of performing a Naive Search, we look up through the index to find out which candidate sentences in the TM contain the content words in the input sentences. We then run edit-distance on only these sentences and return the top N results.
+
+# In[38]:
 
 
 N = 5 #Top N matches returned
 
+picked_candidates_indices = []
+
 edit_distance_all = []
-indices_all = []
 
 i = 0
 count = 0
 
-start = time.time()
-for candidate in src_tm_words:
+for word in content_words: 
+    try:
+        picked_candidates_indices += indexed_dict[word] #Adding indices to picked indices
+    except: #If word not in indexed_dict
+        pass
     
-    #Check if Content Words present in Candidate
-    for word in content_words:
-        if(word in candidate):
-            count += 1
-            #print(candidate)
-            
-            ed = nltk.edit_distance(content_words, candidate) #Calculate Edit Distance only if content words exist
-            
-            edit_distance_all.append(ed)
-            indices_all.append(i)
-            
-            break
-    
-    i += 1
+picked_candidates_indices = list(set(picked_candidates_indices)) #Removing Duplicates due to overlap
 
-end = time.time()
+#for x in picked_candidates_indices:
+#    print(src_tm_words[x-1])
+
+end1 = time.time()
+
+for index in picked_candidates_indices:
+    #since TM is 1-indexed and an array is 0-indexed we subtract 1 when accessing src_tm_words
+    ed = nltk.edit_distance(content_words, src_tm_words[index-1]) #Calculate Edit Distance only if content words exist
+    edit_distance_all.append(ed)
     
-#print('Running Edit Distance on ' + str(count) + ' Candidates out of a possible ' + str(i) + '!\n')
-    
+#print('Running Edit Distance on ' + str(len(picked_candidates_indices)) + ' Candidates out of a possible ' + str(len(src_tm_words)) + '!\n')
+
+start2 = time.time()
+
+
 #Get top N results
 edit_distance_all = np.array(edit_distance_all)
 
 sorted_indices = np.argsort(edit_distance_all) #Sorts in ascending order and returns the indices of indices_all array
 least_N_indices = sorted_indices[:N] #We want least edit distance
 
+#print(sorted_indices[0:10])
 #print(least_N_indices)
 
-for i in least_N_indices:
-    print(indices_all[i], src_tm_words[indices_all[i]], edit_distance_all[i])
+#for i in least_N_indices:
+#    print(picked_candidates_indices[i], src_tm_words[picked_candidates_indices[i]-1], edit_distance_all[i])
 
 
 # ## Retrieval of Target from TM
 
-# In[27]:
 
 
 tgt_tm_array = []
@@ -137,13 +158,18 @@ with open('../../tm_data/tm_tgt.txt') as tgt_tm:
         line = tgt_tm.readline()
         
 #for i in least_N_indices:
-#    print(indices_all[i], tgt_tm_array[indices_all[i]])
+#    print(picked_candidates_indices[i], tgt_tm_array[picked_candidates_indices[i]-1])
 
 
-#end = time.time()
+# In[ ]:
 
+
+
+end2 = time.time()
 print("Time Taken:", file=sys.stderr)
-print(end - start, file=sys.stderr)
+print(end1 - start1, file=sys.stderr)
+print(start2 - end1, file=sys.stderr)
+print(end2 - start2, file=sys.stderr)
 
 
 
