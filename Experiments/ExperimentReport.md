@@ -27,9 +27,13 @@ Total: 			31.95877194404602
 
 ### Method Used: WEIGHTED N_GRAMS
 
+Naive TM (Without Storing IDF) [~8 lakh Sentences]: > 300.0
+
 Naive TM [10000 Sentences]: 0.600862979888916
 
-Naive TM [~8 lakh Sentences]: > 39.4572548866272
+Naive TM [~8 lakh Sentences]: 39.4572548866272
+
+Optimised TM (Without Storing IDF) [~8 lakh Sentences]: > 300.0
 
 Optimised TM (Content Word Pruning) [~10000 Sentences]: 0.4254031181335449
 
@@ -51,3 +55,13 @@ Optimised TM (Content Word Pruning) [~8 lakh Sentences]: 18.43024206161499
 	- The Searching using Index is supposed to make it faster, however, loading the json as an index takes a significant amount of time, which increases overall time. Without this, we see a slight speedup from the previous program. This also shows that even though the earlier search was Naive it didn't take a lot of time.
 
 ### Weighted N-Grams
+
+ - In the numerator of the formula to compute WNGP, it computes the IDF scores of only the N-grams belonging to the intersection of M_N-grams and C_N-grams. Hence, even before pruning using Content words, a filter is used. 
+
+ - As observed when Edit Distance is computed, using Content words as a filter sped up the process as the WNGP is only being computed on a smaller subset of the TM.
+
+ - Storing the IDF values in a separate JSON file and retrieving the values only at the time of computing Wpn sped up the computation of WNGP by 7.5x for Naive TM and 16x for Optimised TM.
+
+ - In the formula to calculate Wpn, an optimal value of Z = 0.75 was taken. A higher value of Z would mean getting longer translation matches, and a lower value of Z would mean getting shorter translation matches. But, we experimented with values Z = 0.3, 0.75, 0.9 and received the same results on the Non-Optimised Weighted file and the Optimised Weighted file. 
+
+ - Initially we had decided to use 4-grams. But, bigger the N-gram, greater the discrimination/restriction (more information about the context of the specific instance). Hence, we decided to use Bigrams which gave better results. 
