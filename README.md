@@ -23,7 +23,7 @@ A report with Experimental Results and Observations can be found inside the `Exp
 
 ## Instruction to Run Project
 - Install Dependecies `pip3 install -r requirements.txt`
-- Download data from (link), create folder `Project` and store it inside in a folder called `tm_data`.
+- Download data from https://drive.google.com/file/d/1c58qrA0mrAIXuB_Ueg3J4q8xT--dU-lV/view?usp=sharing , create folder `Project` and store it inside in a folder called `tm_data`.
 - Extract this folder in the folder `Project` such that project `Folder` consists of `tm_data` and this folder, i.e. `TranslationMemory`. Then go into the folder.
 
 ### Edit Distance
@@ -38,8 +38,7 @@ Run whole Notebook, Give Input Sentence when prompted.
 
 ### Data
 
-Several versions of the data are available.
-The original files ate `tm_src.txt` and `tm_tgt.txt` which are parallel phrase files (aligned) and can be accessed at (link) with several other versions of these files.
+The original TM files are `tm_src.txt` and `tm_tgt.txt` which are parallel phrase files (aligned) and can be accessed at https://drive.google.com/file/d/1c58qrA0mrAIXuB_Ueg3J4q8xT--dU-lV/view?usp=sharing with several other versions of these files.
 
 `tm_src_pp.txt` is the preprocessed Source TM which contains only content words for each sentence in the TM.
 
