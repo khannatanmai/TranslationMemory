@@ -82,7 +82,7 @@ input_line = input_line.lower()
 input_tokens = word_tokenize(input_line)
 
 content_words = [word for word in input_tokens if word not in stop_words] #Removing Stopwords
-print(content_words)
+# print(content_words)
 
 # new_M_sentence = ' '.join(content_words)
 M_ngrams = get_M_ngrams(input_line)
@@ -123,11 +123,11 @@ with open("../tm_data/tm_src_10000_lower.txt") as source_file:
 # In[402]:
 
 
-with open('../tm_data/idf_values_2000.json') as json_file:
+with open('../tm_data/idf_values_10000.json') as json_file:
     idf_values_str = json.load(json_file)
 
 idf_values = ast.literal_eval(idf_values_str)
-print(idf_values)
+# print(idf_values)
 
 
 # ### To compute numerator and denominator
@@ -211,7 +211,7 @@ for i, candidate in enumerate(src_tm_words):
     
     j += 1
     
-print('Running WNGP on ' + str(count) + ' Candidates out of a possible ' + str(j) + '!\n')
+# print('Running WNGP on ' + str(count) + ' Candidates out of a possible ' + str(j) + '!\n')
 
 
 #Get top N results
@@ -220,8 +220,8 @@ wpn_all = np.array(wpn_all)
 sorted_indices = np.argsort(wpn_all) #Sorts in ascending order and returns the indices of indices_all array
 least_N_indices = sorted_indices[-N:] 
 
-for i in least_N_indices:
-    print([indices_all[i]], src_tm_words[indices_all[i]], wpn_all[i])
+# for i in least_N_indices:
+#     print([indices_all[i]], src_tm_words[indices_all[i]], wpn_all[i])
 
 
 # ### Retrieval of Target from TM
@@ -238,6 +238,6 @@ with open('../tm_data/tm_tgt_2000.txt') as tgt_tm:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
         
-for i in least_N_indices:
-    print([indices_all[i]], tgt_tm_array[indices_all[i]])
+# for i in least_N_indices:
+#     print([indices_all[i]], tgt_tm_array[indices_all[i]])
 

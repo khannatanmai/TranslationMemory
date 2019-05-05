@@ -50,7 +50,7 @@ with open("../tm_data/tm_src_10000_lower.txt") as source_file:
     sentences = source_file.read().splitlines()
 
 
-with open('../tm_data/idf_values_2000.json') as json_file:
+with open('../tm_data/idf_values.json') as json_file:
     idf_values_str = json.load(json_file)
 
 idf_values = ast.literal_eval(idf_values_str)
@@ -168,9 +168,9 @@ wnp_all = np.array(wnp_all)
 sorted_indices = np.argsort(wnp_all) 
 least_N_indices = sorted_indices[-N:] 
 
-print()
-for i in least_N_indices:
-    print([i], sentences[i], wnp_all[i])
+# print()
+# for i in least_N_indices:
+#     print([i], sentences[i], wnp_all[i])
 
 
 # ### Retrieval of Target from TM
@@ -187,6 +187,6 @@ with open('../../project/tm_data/tm_tgt.txt') as tgt_tm:
         tgt_tm_array.append(line)
         line = tgt_tm.readline()
   
-    for i in least_N_indices:
-        print([i], tgt_tm_array[i])
+    # for i in least_N_indices:
+    #     print([i], tgt_tm_array[i])
 
