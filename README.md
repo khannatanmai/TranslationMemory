@@ -21,7 +21,20 @@ The Matching has been done by two methods:
 
 A report with Experimental Results and Observations can be found inside the `Experiments` folder: `ExperimentReport.md`
 
-## Implementation
+## Instruction to Run Project
+- Install Dependecies `pip3 install -r requirements.txt`
+- Download data from (link), create folder `Project` and store it inside in a folder called `tm_data`.
+- Extract this folder in the folder `Project` such that project `Folder` consists of `tm_data` and this folder, i.e. `TranslationMemory`. Then go into the folder.
+
+### Edit Distance
+`TMRetrieval-FULL-Optimised.ipynb`
+Run whole Notebook, Give Input Sentence when prompted.
+
+### Weighted N-Grams
+`TMRetrieval_weighted_Optimised.ipynb`
+Run whole Notebook, Give Input Sentence when prompted.
+
+## Project Details
 
 ### Data
 
@@ -35,23 +48,6 @@ Several other files exist of multiple sizes. The sizes are mentioned in the file
 For eg., `tm_src_10000.txt` and `tm_tgt_10000.txt` both contain the first 10000 sentences of the original TM.
 
 The smaller data files are available in this folder. The larger ones are available in the link provided above.
-
-## Description of Implementation
-
-Each file has a Jupyter Notebook (Python3) which can be run and takes the input sentence and provides the matches and the final target translations.
-
-## Instruction to Run Project
-- Install Dependecies `pip3 install -r requirements.txt`
-- Download data from (link), create folder `Project` and store it inside in a folder called `tm_data`.
-- Extract this folder in the folder `Project` such that project `Folder` consists of `tm_data` and this folder, i.e. `TranslationMemory`. Then go into the folder.
-
-### Edit Distance
-`TMRetrieval-FULL-Optimised.ipynb`
-Run whole Notebook, Give Input Sentence when prompted.
-
-### Weighted N-Grams
-`TMRetrieval_weighted_Optimised.ipynb`
-Run whole Notebook, Give Input Sentence when prompted.
 
 ## Description of Files
 Here is a Comprehensive Description of the files available in this Project.
