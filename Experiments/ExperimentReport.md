@@ -14,7 +14,7 @@ Preprocessed TM (Content Words) [10000 Sentences]: 0.34960317611694336
 
 Preprocessed TM (Content Words) [~8 lakh Sentences]: 25.34655499458313
 
-Optimised TM (Content Word Pruning) [~8 lakh Sentences]: 14.540621042251587
+**Optimised TM (Content Word Pruning) [~8 lakh Sentences]: 14.540621042251587**
 
 Optimised TM using Chunk Reading [~8 lakh Sentences]: 15.623741865158081
 
@@ -23,7 +23,15 @@ Loading Index: 	17.758535861968994
 Edit Distance: 	13.452616930007935
 Remaining: 		0.7476191520690918
 
-Total: 			31.95877194404602
+**Total: 			31.95877194404602**
+
+**Ranking Optimisation [~8 lakh Sentences]:**
+Loading TM: 		1.6267828941345215
+Generating Ranks: 	0.994023323059082
+Edit Distance:		0.029277801513671875
+Remaining: 			0.7460300922393799
+
+**TOTAL:			3.3961141109466553**
 
 ### Method Used: WEIGHTED N_GRAMS
 
@@ -53,6 +61,8 @@ Optimised TM (Content Word Pruning) [~8 lakh Sentences]: 18.43024206161499
 	- We noticed that for the Optimised TM, the bulk of the time (~13 seconds out of ~14 seconds is used in calculating Edit Distance, which is a time that wasn't reduced)
 
 	- The Searching using Index is supposed to make it faster, however, loading the json as an index takes a significant amount of time, which increases overall time. Without this, we see a slight speedup from the previous program. This also shows that even though the earlier search was Naive it didn't take a lot of time.
+
+- Ranking the pruned Content words and running Edit Distance on only the top 500 ranks resulted in a huge speedup of around 5x times. This is because the bulk of the time was being used by Edit Distance and we put an upper limit on that time (only executed 500 times).
 
 ### Weighted N-Grams
 

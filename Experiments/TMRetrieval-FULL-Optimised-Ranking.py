@@ -80,6 +80,7 @@ with open('../../tm_data/tm_src_pp.txt') as src_tm:
 # ## Ranking
 
 # In[26]:
+ranking1 = time.time()
 
 
 match_counts = []
@@ -115,11 +116,13 @@ if(len(sorted_indices) <= 500):
 else:
     final_indices = sorted_indices[-500:] #Only put top 500 ranks in final indices
     
-print(final_indices[-10:]) #Show top 10 ranks
-print(str(len(match_counts)) + ' got reduced to ' + str(len(final_indices)))
+#print(final_indices[-10:]) #Show top 10 ranks
+#print(str(len(match_counts)) + ' got reduced to ' + str(len(final_indices)))
 
 
 # ## Execute Edit Distance
+
+cp1 = time.time()
 
 # In[32]:
 
@@ -135,7 +138,7 @@ for index_tm in final_indices:
     edit_distance_all.append(ed)
     indices_all.append(index_tm)
     
-print('Running Edit Distance on ' + str(len(final_indices)) + ' Ranked Candidates out of a possible ' + str(len(src_tm_words)) + '!\n')
+#print('Running Edit Distance on ' + str(len(final_indices)) + ' Ranked Candidates out of a possible ' + str(len(src_tm_words)) + '!\n')
     
 #Get top N results
 edit_distance_all = np.array(edit_distance_all)
@@ -145,9 +148,10 @@ least_N_indices = sorted_indices[:N] #We want least edit distance
 
 #print(least_N_indices)
 
-for i in least_N_indices:
-    print(indices_all[i], src_tm_words[indices_all[i]-1], edit_distance_all[i])
+#for i in least_N_indices:
+#   print(indices_all[i], src_tm_words[indices_all[i]-1], edit_distance_all[i])
 
+cp2 = time.time()
 
 # ## Retrieval of Target from TM
 
@@ -156,7 +160,7 @@ for i in least_N_indices:
 
 tgt_tm_array = []
 
-with open('../tm_data/tm_tgt.txt') as tgt_tm:
+with open('../../tm_data/tm_tgt.txt') as tgt_tm:
     line = tgt_tm.readline()
     
     while line:
@@ -165,4 +169,11 @@ with open('../tm_data/tm_tgt.txt') as tgt_tm:
         
 for i in least_N_indices:
     print(indices_all[i], tgt_tm_array[indices_all[i]-1])
+
+end = time.time()
+print("Time Taken:", file=sys.stderr)
+print(ranking1 - start, file=sys.stderr)
+print(cp1 - ranking1, file=sys.stderr)
+print(cp2 - cp1, file=sys.stderr)
+print(end - cp2, file=sys.stderr)
 
