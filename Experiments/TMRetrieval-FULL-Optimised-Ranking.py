@@ -11,7 +11,7 @@
 import sys
 import nltk
 import numpy as np
-
+import time
 
 # In[2]:
 
@@ -33,6 +33,8 @@ stop_words = stopwords.words('english')
 
 input_line = input()
 
+start = time.time()
+
 #convert input to lowercase
 input_line = input_line.lower()
 
@@ -41,7 +43,7 @@ input_tokens = word_tokenize(input_line)
 
 content_words = [word for word in input_tokens if word not in stop_words] #Removing Stopwords
 
-print(content_words)
+#print(content_words)
 
 
 # ## Edit Distance
@@ -64,7 +66,7 @@ print(content_words)
 
 src_tm_words = [] #Content Words in Source TM
 
-with open('../tm_data/tm_src_pp.txt') as src_tm:
+with open('../../tm_data/tm_src_pp.txt') as src_tm:
     line = src_tm.readline()
     
     while line:
@@ -74,21 +76,6 @@ with open('../tm_data/tm_src_pp.txt') as src_tm:
         src_tm_words.append(words)
         
         line = src_tm.readline()
-
-
-# In[ ]:
-
-
-# Python code to sort the tuples using second element  
-# of sublist Inplace way to sort using sort() 
-def Sort(sub_li): 
-  
-    # reverse = None (Sorts in Ascending order) 
-    # key is set to sort using second element of  
-    # sublist lambda has been used 
-    sub_li.sort(key = lambda x: x[1]) 
-    return sub_li 
-
 
 # ## Ranking
 
