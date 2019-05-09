@@ -27,7 +27,7 @@ A report with Experimental Results and Observations can be found inside the `Exp
 - Extract this folder in the folder `Project` such that project `Folder` consists of `tm_data` and this folder, i.e. `TranslationMemory`. Then go into the folder.
 
 ### Edit Distance
-`TMRetrieval-FULL-Optimised.ipynb`
+`TMRetrieval-FULL-Optimised-Ranking.ipynb`
 Run whole Notebook, Give Input Sentence when prompted.
 
 ### Weighted N-Grams
@@ -77,6 +77,9 @@ Here is a Comprehensive Description of the files available in this Project.
 `TMRetrieval-FULL-Optimised-Indexed.ipynb`
 - While pruning the search, instead of a Naive Search, an index is created from the preprocessed TM for faster search to prune Candidate Sentences and Edit Distance is run only on these Candidate Sentences.
 
+### Optimised TM with Ranking
+`TMRetrieval-FULL-Optimised-Ranking.ipynb`
+- After pruning the search, we rank the candidates based on how many content words match and we run Edit Distance only on the top 500 ranked candidate sentences. Fastest solution.
 ### Preprocessing
 `TMPreProcessing.ipynb`
 Converts to lowercase and creates a new TM Source with only Content Words.
